@@ -1,0 +1,72 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: crossfit_app
+    volumes:
+      - ./:/var/www/html # sync local code for hot reloads
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8080
+      LOG_CHANNEL: stack
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: crossfit_local
+      DB_USERNAME: crossfit_user
+      DB_PASSWORD: crossfit_pass
+      CACHE_DRIVER: redis
+      QUEUE_CONNECTION: redis
+      REDIS_HOST: redis
+    depends_on:
+      - db
+      - redis
+    networks:
+      - crossfit_net
+
+  web:
+    image: nginx:1.25-alpine
+    container_name: crossfit_web
+    ports:
+      - "8080:80" # expose app at http://localhost:8080
+    volumes:
+      - ./:/var/www/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - crossfit_net
+
+  db:
+    image: postgres:15-alpine
+    container_name: crossfit_db
+    environment:
+      POSTGRES_DB: crossfit_local
+      POSTGRES_USER: crossfit_user
+      POSTGRES_PASSWORD: crossfit_pass
+    ports:
+      - "5432:5432" # allow local DB client connections
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    networks:
+      - crossfit_net
+
+  redis:
+    image: redis:7-alpine
+    container_name: crossfit_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - crossfit_net
+
+volumes:
+  db_data:
+    driver: local # persists Postgres data between restarts
+
+networks:
+  crossfit_net:
+    driver: bridge

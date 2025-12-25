@@ -34,7 +34,6 @@ laravel/pnpm-debug.log*
 
 # Docker & local infra state
 .docker/
-docker-compose.yml
 mysql_data/
 docker/.env
 docker/.env.*
