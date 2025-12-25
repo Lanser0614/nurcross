@@ -34,9 +34,11 @@ laravel/pnpm-debug.log*
 
 # Docker & local infra state
 .docker/
+docker-compose.yml
 mysql_data/
 docker/.env
 docker/.env.*
+db_data/
 
 # // TODO: Add auth.json - to prevent lack of credentials of Nova
 # auth.json
