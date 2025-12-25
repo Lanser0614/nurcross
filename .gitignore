@@ -1,0 +1,43 @@
+#
+# Project ignores
+#
+
+# Laravel dependencies and build artifacts
+laravel/vendor/
+laravel/node_modules/
+laravel/public/build/
+laravel/public/hot
+laravel/public/storage
+laravel/storage/*.key
+laravel/bootstrap/cache/*.php
+laravel/.phpunit.result.cache
+laravel/composer.lock
+
+# Laravel environment & configuration overrides
+laravel/.env
+laravel/.env.*
+laravel/.env.backup
+laravel/Homestead.json
+laravel/Homestead.yaml
+
+# JS tooling noise
+laravel/npm-debug.log*
+laravel/yarn-error.log*
+laravel/pnpm-debug.log*
+
+# Local tooling & IDE files
+.idea/
+.vscode/
+**/.DS_Store
+*.swp
+*.swo
+
+# Docker & local infra state
+.docker/
+docker-compose.yml
+mysql_data/
+docker/.env
+docker/.env.*
+
+# // TODO: Add auth.json - to prevent lack of credentials of Nova
+# auth.json
