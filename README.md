@@ -67,9 +67,9 @@ Add the following repository secrets to enable the production deployment stage:
 
 - `DEPLOY_HOST`: SSH host for the production server.
 - `DEPLOY_USER`: SSH user for deployment.
+- `DEPLOY_PASSWORD`: SSH password for deployment.
 - `DEPLOY_PORT`: SSH port (set to `22` if not using a custom port).
 - `DEPLOY_PATH`: Absolute path on the server where the release should be copied and extracted.
-- `DEPLOY_SSH_KEY`: Private SSH key used for authentication.
 
 Ensure the target path already contains a valid `.env` file and correct permissions for the web server/PHP-FPM user.
 
