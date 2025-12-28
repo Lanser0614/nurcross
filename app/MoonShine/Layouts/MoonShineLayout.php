@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Layouts;
 
 use App\MoonShine\Resources\CoachResource;
+use App\MoonShine\Resources\EventResource;
 use App\MoonShine\Resources\GymResource;
 use App\MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\MoonShineUserRoleResource;
@@ -40,6 +41,7 @@ final class MoonShineLayout extends AppLayout
             ]),
             MenuGroup::make('Каталог', [
                 MenuItem::make(GymResource::class, 'Залы')->icon('building-office-2'),
+                MenuItem::make(EventResource::class, 'События')->icon('building-office-2'),
                 MenuItem::make(CoachResource::class, 'Тренеры')->icon('user-group'),
                 MenuItem::make(MovementResource::class, 'Упражнения')->icon('bolt'),
             ]),

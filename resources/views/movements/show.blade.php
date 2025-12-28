@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $movement->name . ' · ' . __('Movement library'))
+@section('title', $movement->name . ' · ' . __('text.Movement library'))
 
 @section('content')
     <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
@@ -16,7 +16,7 @@
                 <div class="flex flex-wrap gap-3 text-sm text-gray-300">
                     <span class="px-3 py-1 rounded-full bg-slate-950 border border-slate-800">{{ ucfirst($movement->difficulty) }}</span>
                     @if($movement->equipment)
-                        <span class="px-3 py-1 rounded-full bg-slate-950 border border-slate-800">Equipment: {{ $movement->equipment }}</span>
+                        <span class="px-3 py-1 rounded-full bg-slate-950 border border-slate-800">{{ __('text.Equipment: :equipment', ['equipment' => $movement->equipment]) }}</span>
                     @endif
                 </div>
             </div>
@@ -87,7 +87,7 @@
         @endif
 
         <section>
-                <h2 class="text-2xl font-bold mb-4">{{ __('Appears in these WODs') }}</h2>
+                <h2 class="text-2xl font-bold mb-4">{{ __('text.Appears in these WODs') }}</h2>
             <div class="grid gap-4 md:grid-cols-2">
                 @forelse($movement->wods as $wod)
                     <a href="{{ route('wods.show', $wod) }}" class="bg-slate-900/60 border border-slate-800 rounded-3xl p-5 hover:border-orange-500/60 transition">
@@ -98,7 +98,7 @@
                     <p class="text-gray-400 text-sm mt-3 line-clamp-3">{{ $wod->description_localized }}</p>
                     </a>
                 @empty
-                    <p class="text-gray-400">{{ __('No workouts linked yet.') }}</p>
+                    <p class="text-gray-400">{{ __('text.No workouts linked yet.') }}</p>
                 @endforelse
             </div>
         </section>

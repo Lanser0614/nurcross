@@ -25,12 +25,12 @@ class GymFactory extends Factory
             'type' => $this->faker->randomElement(['box', 'functional training']),
             'latitude' => $this->faker->latitude(41.0, 43.0),
             'longitude' => $this->faker->longitude(64.0, 71.0),
-            'phone' => $this->faker->phoneNumber(),
-            'email' => $this->faker->unique()->companyEmail(),
-            'website' => $this->faker->optional()->url(),
+//            'phone' => $this->faker->phoneNumber(),
+//            'email' => $this->faker->unique()->companyEmail(),
+//            'website' => $this->faker->optional()->url(),
             'instagram' => $this->faker->optional()->userName(),
-            'telegram' => $this->faker->optional()->userName(),
-            'description' => $this->faker->paragraph(),
+//            'telegram' => $this->faker->optional()->userName(),
+//            'description' => $this->faker->paragraph(),
         ];
     }
 }

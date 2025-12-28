@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ru',
 
     /*
     |--------------------------------------------------------------------------
@@ -97,6 +97,18 @@ return [
     */
 
     'fallback_locale' => 'en',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Available Locales
+    |--------------------------------------------------------------------------
+    |
+    | This array is used to power the locale switcher across the application.
+    | Update it whenever you add or remove localization options.
+    |
+    */
+
+    'available_locales' => ['ru', 'uz'],
 
     /*
     |--------------------------------------------------------------------------

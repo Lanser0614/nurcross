@@ -11,6 +11,7 @@ use MoonShine\Contracts\Core\ResourceContract;
 use MoonShine\Laravel\DependencyInjection\MoonShine;
 use MoonShine\Laravel\DependencyInjection\MoonShineConfigurator;
 use App\MoonShine\Resources\CoachResource;
+use App\MoonShine\Resources\EventResource;
 use App\MoonShine\Resources\GymResource;
 use App\MoonShine\Resources\MoonShineUserRoleResource;
 use App\MoonShine\Resources\MoonShineUserResource;
@@ -55,6 +56,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 MovementResource::class,
                 WodResource::class,
                 WodResultResource::class,
+                EventResource::class,
                 UserResource::class,
                 MoonShineUserResource::class,
                 MoonShineUserRoleResource::class,
