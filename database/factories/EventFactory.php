@@ -36,6 +36,7 @@ class EventFactory extends Factory
                 'ru' => $this->faker->paragraph(),
                 'uz' => $this->faker->paragraph(),
             ],
+            'content_video_disk' => 'public',
         ];
     }
 }

@@ -12,6 +12,7 @@ use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Support\Attributes\Icon;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Fields\Date;
+use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Json;
 use MoonShine\UI\Fields\Select;
@@ -79,6 +80,11 @@ class EventResource extends ModelResource
                 Text::make('Ссылка на регистрацию', 'registration_url'),
                 Switcher::make('Избранное', 'is_featured'),
                 Textarea::make('Desc', 'description'),
+                File::make('Видео события', 'content_video_path')
+                    ->disk('public')
+                    ->dir('event-content')
+                    ->allowedExtensions(['mp4', 'mov', 'webm'])
+                    ->hint('MP4, MOV или WEBM до 100 МБ'),
             ]),
         ];
     }

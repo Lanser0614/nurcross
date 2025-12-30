@@ -52,4 +52,8 @@ class User extends Authenticatable
         return $this->hasMany(WodResult::class);
     }
 
+    public function eventRegistrations(): HasMany
+    {
+        return $this->hasMany(EventRegistration::class);
+    }
 }

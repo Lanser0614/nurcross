@@ -77,11 +77,16 @@
                             <p>{{ __('text.Ends') }}: {{ $event->end_at->translatedFormat('d M Y, H:i') }}</p>
                         @endif
                     </div>
-                    @if($event->registration_url)
-                        <a href="{{ $event->registration_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2 rounded-2xl border border-orange-500 text-orange-300 text-sm hover:bg-orange-500 hover:text-black transition">
-                            {{ __('text.Registration') }}
+                    <div class="flex flex-wrap gap-3 mt-auto">
+                        <a href="{{ route('events.show', $event) }}" class="inline-flex items-center justify-center px-4 py-2 rounded-2xl border border-slate-700 text-gray-200 text-sm hover:border-orange-500 hover:text-orange-300 transition">
+                            {{ __('text.View event') }}
                         </a>
-                    @endif
+                        @if($event->registration_url)
+                            <a href="{{ $event->registration_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-4 py-2 rounded-2xl border border-orange-500 text-orange-300 text-sm hover:bg-orange-500 hover:text-black transition">
+                                {{ __('text.Registration') }}
+                            </a>
+                        @endif
+                    </div>
                 </div>
             @empty
                 <div class="col-span-full text-center py-16 bg-slate-900/50 border border-dashed border-slate-700 rounded-3xl">

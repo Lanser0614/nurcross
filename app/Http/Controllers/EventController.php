@@ -42,4 +42,30 @@ class EventController extends Controller
             'filters' => $request->only(['category', 'gym', 'include_past']),
         ]);
     }
+
+    public function show(Request $request, Event $event): View
+    {
+        $event->load('gym')->loadCount('registrations');
+
+        $recentRegistrations = $event->registrations()
+            ->with('user')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $existingRegistration = null;
+
+        if ($request->user()) {
+            $existingRegistration = $event->registrations()
+                ->where('user_id', $request->user()->id)
+                ->latest()
+                ->first();
+        }
+
+        return view('events.show', [
+            'event' => $event,
+            'recentRegistrations' => $recentRegistrations,
+            'existingRegistration' => $existingRegistration,
+        ]);
+    }
 }
