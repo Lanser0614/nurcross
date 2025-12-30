@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $gym->name . ' · ' . __('CrossFit Uzbekistan'))
+@section('title', $gym->name . ' · ' . __('text.CrossFit Uzbekistan'))
 
 @section('content')
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
@@ -17,32 +17,40 @@
                     <span class="px-3 py-1 rounded-full bg-slate-950 border border-slate-800">☎ {{ $gym->phone }}</span>
                     @endif
                     @if($gym->instagram)
-                        <span class="px-3 py-1 rounded-full bg-slate-950 border border-slate-800">IG: {{ '@'.$gym->instagram }}</span>
+                        @php($instagramHandle = ltrim($gym->instagram, '@'))
+                        <a
+                            href="https://instagram.com/{{ $instagramHandle }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="px-3 py-1 rounded-full bg-slate-950 border border-slate-800 hover:text-orange-400 transition"
+                        >
+                            {{ __('text.Instagram:') }} {{ '@' . $instagramHandle }}
+                        </a>
                     @endif
                 </div>
             </div>
             <div class="grid gap-6 md:grid-cols-3">
                 <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5">
-                    <p class="text-xs uppercase tracking-[0.4em] text-gray-500">{{ __('Location') }}</p>
-                    <p class="text-lg font-semibold mt-2">{{ $gym->address ?? __('Details coming soon') }}</p>
+                    <p class="text-xs uppercase tracking-[0.4em] text-gray-500">{{ __('text.Location') }}</p>
+                    <p class="text-lg font-semibold mt-2">{{ $gym->address ?? __('text.Details coming soon') }}</p>
                     <p class="text-gray-500 text-sm mt-2">
-                        Lat {{ $gym->latitude ?? '—' }} / Long {{ $gym->longitude ?? '—' }}
+                        {{ __('text.Latitude') }} {{ $gym->latitude ?? '—' }} / {{ __('text.Longitude') }} {{ $gym->longitude ?? '—' }}
                     </p>
                 </div>
                 <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5">
-                    <p class="text-xs uppercase tracking-[0.4em] text-gray-500">{{ __('Contacts') }}</p>
+                    <p class="text-xs uppercase tracking-[0.4em] text-gray-500">{{ __('text.Contacts') }}</p>
                     <ul class="mt-3 space-y-2 text-sm text-gray-300">
-                        <li>{{ __('Email') }}: {{ $gym->email ?? '—' }}</li>
-                        <li>{{ __('Website') }}: {{ $gym->website ?? '—' }}</li>
-                        <li>{{ __('Telegram') }}: {{ $gym->telegram ?? '—' }}</li>
+                        <li>{{ __('text.Email') }}: {{ $gym->email ?? '—' }}</li>
+                        <li>{{ __('text.Website') }}: {{ $gym->website ?? '—' }}</li>
+                        <li>{{ __('text.Telegram') }}: {{ $gym->telegram ?? '—' }}</li>
                     </ul>
                 </div>
                 <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between">
                     <div>
-                    <p class="text-xs uppercase tracking-[0.4em] text-gray-500">{{ __('Coaches') }}</p>
+                    <p class="text-xs uppercase tracking-[0.4em] text-gray-500">{{ __('text.Coaches') }}</p>
                         <p class="text-3xl font-bold mt-3">{{ $gym->coaches->count() }}</p>
                     </div>
-                    <a href="#coaches" class="text-orange-400 text-sm hover:underline">{{ __('Meet the team') }}</a>
+                    <a href="#coaches" class="text-orange-400 text-sm hover:underline">{{ __('text.Meet the team') }}</a>
                 </div>
             </div>
             @if($gym->latitude && $gym->longitude)
@@ -59,13 +67,13 @@
                 </div>
             @else
                 <div class="rounded-2xl border border-dashed border-slate-800 h-64 flex items-center justify-center text-gray-500 text-sm uppercase tracking-[0.4em]">
-                    {{ __('Map placeholder (coming soon)') }}
+                    {{ __('text.Map placeholder (coming soon)') }}
                 </div>
             @endif
         </div>
 
         <section id="coaches">
-            <h2 class="text-2xl font-bold mb-4">{{ __('Coaches') }}</h2>
+            <h2 class="text-2xl font-bold mb-4">{{ __('text.Coaches') }}</h2>
             <div class="grid gap-6 md:grid-cols-2">
                 @forelse($gym->coaches as $coach)
                     <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-5 flex gap-4">
@@ -73,22 +81,22 @@
                             {{ collect(explode(' ', $coach->full_name))->map(fn ($part) => substr($part, 0, 1))->take(2)->join('') }}
                         </div>
                         <div>
-                            <p class="text-sm uppercase tracking-widest text-gray-500">{{ $coach->role ?? 'Coach' }}</p>
+                            <p class="text-sm uppercase tracking-widest text-gray-500">{{ $coach->role ?? __('text.Coach') }}</p>
                             <h3 class="text-xl font-semibold mt-1">{{ $coach->full_name }}</h3>
                             <p class="text-gray-400 text-sm mt-2 line-clamp-3">{{ $coach->bio }}</p>
-                            <p class="text-xs text-gray-500 mt-2">Specialties: {{ $coach->specialties ?? 'Functional fitness' }}</p>
+                            <p class="text-xs text-gray-500 mt-2">{{ __('text.Specialties:') }} {{ $coach->specialties ?? __('text.Functional fitness') }}</p>
                         </div>
                     </div>
                 @empty
-                    <p class="text-gray-400">{{ __('No coaches listed yet.') }}</p>
+                    <p class="text-gray-400">{{ __('text.No coaches listed yet.') }}</p>
                 @endforelse
             </div>
         </section>
 
         <section>
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl font-bold">{{ __('Latest WODs from :name', ['name' => $gym->name]) }}</h2>
-                <a href="{{ route('wods.index') }}" class="text-sm text-orange-400 hover:underline">{{ __('All WODs') }}</a>
+                <h2 class="text-2xl font-bold">{{ __('text.Latest WODs from :name', ['name' => $gym->name]) }}</h2>
+                <a href="{{ route('wods.index') }}" class="text-sm text-orange-400 hover:underline">{{ __('text.All WODs') }}</a>
             </div>
             <div class="grid gap-6 md:grid-cols-2">
                 @forelse($gym->wods as $wod)
@@ -105,7 +113,7 @@
                         </div>
                     </a>
                 @empty
-                    <p class="text-gray-400">{{ __('No workouts published yet.') }}</p>
+                    <p class="text-gray-400">{{ __('text.No workouts published yet.') }}</p>
                 @endforelse
             </div>
         </section>
@@ -120,7 +128,7 @@
     @push('scripts')
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
-            const googleMapsLabel = @json(__('Open in Google Maps'));
+            const googleMapsLabel = @json(__('text.Open in Google Maps'));
 
             document.addEventListener('DOMContentLoaded', () => {
                 const mapElement = document.getElementById('gym-map');

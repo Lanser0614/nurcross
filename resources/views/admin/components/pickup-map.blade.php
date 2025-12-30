@@ -19,7 +19,7 @@
     ></div>
 
     <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
-        {{ __('Click on the map to update coordinates.') }}
+        {{ __('text.Click on the map to update coordinates.') }}
     </p>
 </div>
 

@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\EventCategory;
 use App\Models\Coach;
+use App\Models\Event;
 use App\Models\Gym;
 use App\Models\Movement;
 use App\Models\User;
@@ -20,7 +22,7 @@ class CrossfitDemoSeeder extends Seeder
         $gyms = $this->seedGymsWithCoaches();
         $movements = $this->seedMovements();
         $wods = $this->seedWods($gyms, $movements);
-
+        $this->seedEvents($gyms);
         $this->seedResults($wods, $users);
     }
 
@@ -39,28 +41,59 @@ class CrossfitDemoSeeder extends Seeder
     {
         $gymPresets = [
             [
-                'name' => 'CrossFit Tashkent',
+                'name' => 'Savage Sport Club',
                 'city' => 'Tashkent',
-                'type' => 'box',
-                'description' => 'Flagship CrossFit affiliate in the heart of Tashkent with competition programming.',
+                'type' => 'fitness club / functional training',
+                'description' => 'Популярный спортивный клуб с функциональными зонами и элементами CrossFit-стиля тренировок по адресу ул. Ифтихор, 120. :contentReference[oaicite:0]{index=0}',
+                'latitude' => 41.347256,  // ул. Ифтихор, 120, Юнусабадский район, Ташкент :contentReference[oaicite:1]{index=1}
+                'longitude' => 69.280689,
+                'email' => null,
+                'phone' => null,
+                'instagram' => 'https://www.instagram.com/savage.sports.club/',
             ],
             [
-                'name' => 'Registan Strength Lab',
-                'city' => 'Samarkand',
-                'type' => 'functional training',
-                'description' => 'Hybrid facility focused on CrossFit + Olympic Weightlifting near Registan square.',
+                'name' => 'Tribe Functional Training',
+                'city' => 'Tashkent',
+                'type' => 'crossfit / functional gym',
+                'description' => 'Спортивный тренажёрный зал с кроссфит- и функциональными программами на ул. Паркент, 131. :contentReference[oaicite:2]{index=2}',
+                'latitude' => 41.315736,  // ул. Паркент, 131, Мирзо-Улугбекский район, Ташкент :contentReference[oaicite:3]{index=3}
+                'longitude' => 69.326817,
+                'email' => null,
+                'phone' => null,
+                'instagram' => 'https://www.instagram.com/tashkent_tribe/'
             ],
             [
-                'name' => 'Steppe Engine',
-                'city' => 'Bukhara',
-                'type' => 'box',
-                'description' => 'Community-driven box with strong endurance programming.',
+                'name' => 'Medion Sport',
+                'city' => 'Tashkent',
+                'type' => 'gym / fitness center',
+                'description' => 'Фитнес-центр с зонами функционального тренинга и силовыми программами (часто посещается любителями CrossFit-стилей).',
+                'latitude' => 41.326477,  // ориентировочно по карте Ташкента (Абдуллы Кадыри 39/1) — пример, уточню при надобности
+                'longitude' => 69.249212,
+                'email' => null,
+                'phone' => null,
+                'instagram' => 'https://www.instagram.com/medionsport/'
             ],
             [
-                'name' => 'Aral Athletica',
-                'city' => 'Nukus',
-                'type' => 'functional training',
-                'description' => 'Functional training studio for emerging CrossFit athletes.',
+                'name' => 'BeFit BOX',
+                'city' => 'Tashkent',
+                'type' => 'functional & CrossFit training space',
+                'description' => 'Зона функционального тренинга с CrossFit-оборудованием и программами внутри сети BeFit. ',
+                'latitude' => 41.324358,  // ориентировочно из карт 2GIS по адресу BeFit BOX Tashkent
+                'longitude' => 69.295950,
+                'email' => null,
+                'phone' => null,
+                'instagram' => 'https://www.instagram.com/befitbox.uz/'
+            ],
+            [
+                'name' => 'BUKA GYM Training Center',
+                'city' => 'Tashkent',
+                'type' => 'crossfit / functional gym & fight zone',
+                'description' => 'Тренировочный центр с зонами для CrossFit, функциональных тренировок и боевых искусств (бойцовская зона, силовая) на ул. 9-й проезд Абдуллы Каххара, 1А. Афиллированный CrossFit-клуб с программами Functional Training, CrossFit, Mobility и др. :contentReference[oaicite:0]{index=0}',
+                'latitude' => 41.311900, // приближённо — ориентировочно по адресу и карте 2GIS
+                'longitude' => 69.266500,
+                'email' => null,
+                'phone' => null,
+                'instagram' => 'https://www.instagram.com/bukagym/'
             ],
         ];
 
@@ -71,6 +104,11 @@ class CrossfitDemoSeeder extends Seeder
                 'city' => $preset['city'],
                 'type' => $preset['type'],
                 'description' => $preset['description'],
+                'latitude' => $preset['latitude'],
+                'longitude' => $preset['longitude'],
+                'email' => $preset['email'],
+                'phone' => $preset['phone'],
+                'instagram' => $preset['instagram'],
             ]);
 
             Coach::factory()->count(3)->create(['gym_id' => $gym->id]);
@@ -221,6 +259,92 @@ class CrossfitDemoSeeder extends Seeder
 
             return $wod;
         });
+    }
+
+    protected function seedEvents(Collection $gyms): void
+    {
+        $events = [
+            [
+                'title' => 'Tashkent Throwdown',
+                'category' => EventCategory::COMPETITION,
+                'city' => 'Tashkent',
+                'address' => 'Savage Sport Club',
+                'start_at' => now()->addWeeks(2)->setTime(10, 0),
+                'end_at' => now()->addWeeks(2)->setTime(18, 0),
+                'registration_url' => 'https://crossfit.uz/events/throwdown',
+                'gym_name' => 'Savage Sport Club',
+                'description_en' => 'One-day throwdown for RX and scaled athletes with individual and team heats.',
+                'description_ru' => 'Однодневный throwdown для RX и scaled атлетов с индивидуальными и командными забегами.',
+                'description_uz' => "Bir kunlik throwdown: RX va scaled atletlar uchun individual hamda jamoaviy startlar.",
+            ],
+            [
+                'title' => 'Tribe Skills Camp',
+                'category' => EventCategory::SEMINAR,
+                'city' => 'Tashkent',
+                'address' => 'Tribe Functional Training',
+                'start_at' => now()->addWeeks(4)->setTime(11, 30),
+                'end_at' => now()->addWeeks(4)->setTime(16, 0),
+                'registration_url' => 'https://tribe.uz/camp',
+                'gym_name' => 'Tribe Functional Training',
+                'description_en' => 'Technical workshop dedicated to gymnastics progressions and barbell cycling.',
+                'description_ru' => 'Технический кемп по гимнастическим прогрессиям и работе со штангой.',
+                'description_uz' => "Gimnastika progressiyalari va shtanga bilan ishlash bo'yicha texnik lager.",
+            ],
+            [
+                'title' => 'Savage Community Murph',
+                'category' => EventCategory::COMMUNITY,
+                'city' => 'Tashkent',
+                'address' => 'Savage Sport Club',
+                'start_at' => now()->addWeeks(6)->setTime(9, 0),
+                'end_at' => now()->addWeeks(6)->setTime(12, 0),
+                'registration_url' => null,
+                'gym_name' => 'Savage Sport Club',
+                'description_en' => 'Community meetup to complete Murph together and support local charity.',
+                'description_ru' => 'Комьюнити-встреча: выполняем Murph вместе и поддерживаем местный благотворительный фонд.',
+                'description_uz' => "Hamjamiyat uchrashuvi: birgalikda Murph bajarib, xayriya jamg'armasini qo'llab-quvvatlaymiz.",
+            ],
+            [
+                'title' => 'Silk Road Qualifier',
+                'category' => EventCategory::QUALIFIER,
+                'city' => 'Online',
+                'address' => 'Online',
+                'start_at' => now()->addWeeks(3)->setTime(0, 0),
+                'end_at' => now()->addWeeks(5)->setTime(23, 0),
+                'registration_url' => 'https://silkroadcomp.com/qualifier',
+                'gym_name' => null,
+                'description_en' => 'Online qualifier for the Silk Road CrossFit festival finals in Samarkand.',
+                'description_ru' => 'Онлайн-квалификация на финал фестиваля Silk Road CrossFit в Самарканде.',
+                'description_uz' => "Silk Road CrossFit festivali finali (Samarqand) uchun onlayn saralash.",
+            ],
+        ];
+
+        $gymsByName = $gyms->keyBy('name');
+
+        foreach ($events as $preset) {
+            $gym = $preset['gym_name']
+                ? $gymsByName->get($preset['gym_name'])
+                : $gyms->random();
+
+            Event::create([
+                'gym_id' => $gym?->id,
+                'title' => $preset['title'],
+                'category' => $preset['category'],
+                'city' => $preset['city'],
+                'address' => $preset['address'],
+                'start_at' => $preset['start_at'],
+                'end_at' => $preset['end_at'],
+                'registration_url' => $preset['registration_url'],
+                'description' => [
+                    'en' => $preset['description_en'],
+                    'ru' => $preset['description_ru'],
+                    'uz' => $preset['description_uz'],
+                ],
+            ]);
+        }
+
+        Event::factory()
+            ->count(4)
+            ->create();
     }
 
     protected function seedResults(Collection $wods, Collection $users): void

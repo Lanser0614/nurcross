@@ -43,9 +43,9 @@
         };
 
         const saveUrl = @json($saveUrl);
-        console.log(saveUrl)
-
         const csrf = @json(csrf_token());
+        const saveErrorMessage = @json(__('text.Failed to save coordinates'));
+        const genericErrorMessage = @json(__('text.Error'));
 
         const init = () => {
             if (container.dataset.initialized || typeof L === 'undefined') {
@@ -131,12 +131,12 @@
 
                         if (! response.ok) {
                             const payload = await response.json().catch(() => ({}));
-                            throw new Error(payload.message ?? 'Failed to save coordinates');
+                            throw new Error(payload.message ?? saveErrorMessage);
                         }
 
                         setStatus('{{ __('moonshine::ui.saved') }}', true);
                     } catch (error) {
-                        setStatus(error.message || 'Error', false);
+                        setStatus(error.message || genericErrorMessage, false);
                     } finally {
                         saveButton.disabled = false;
                     }

@@ -96,9 +96,9 @@ class Wod extends Model
     public static function translateDifficulty(?string $difficulty): string
     {
         $map = [
-            'beginner' => __('Beginner'),
-            'intermediate' => __('Intermediate'),
-            'advanced' => __('Advanced'),
+            'beginner' => __('text.Beginner'),
+            'intermediate' => __('text.Intermediate'),
+            'advanced' => __('text.Advanced'),
         ];
 
         if (! $difficulty) {
@@ -116,10 +116,10 @@ class Wod extends Model
     public static function translateType(?string $type): string
     {
         $map = [
-            'for_time' => __('For Time'),
-            'amrap' => __('AMRAP'),
-            'emom' => __('EMOM'),
-            'strength' => __('Strength'),
+            'for_time' => __('text.For Time'),
+            'amrap' => __('text.AMRAP'),
+            'emom' => __('text.EMOM'),
+            'strength' => __('text.Strength'),
         ];
 
         if (! $type) {

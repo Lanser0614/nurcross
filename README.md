@@ -21,6 +21,58 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Local development with Docker Compose
+
+1. Copy the environment template:
+   ```bash
+   cp .env.example .env
+   ```
+2. Install PHP dependencies inside the container (requires Docker):
+   ```bash
+   docker compose run --rm app composer install
+   ```
+3. Start the containers:
+   ```bash
+   docker compose up -d
+   ```
+4. Generate the application key and run database migrations inside the running container:
+   ```bash
+   docker compose exec app php artisan key:generate
+   docker compose exec app php artisan migrate
+   ```
+5. Install frontend dependencies using the Node service:
+   ```bash
+   docker compose run --rm node npm install
+   ```
+6. Run the Vite dev server inside the Node container (port 5173 is forwarded by default):
+   ```bash
+   docker compose run --rm -p ${VITE_PORT:-5173}:5173 node npm run dev -- --host 0.0.0.0 --port ${VITE_PORT:-5173}
+   ```
+   You can also build assets without the dev server:
+   ```bash
+   docker compose run --rm node npm run build
+   ```
+7. Visit the application at http://localhost:${APP_PORT:-8080}.
+
+## CI/CD
+
+- Continuous integration and delivery run through [GitHub Actions](.github/workflows/ci-cd.yml).
+- Pushes and pull requests to `master` (and maintenance branches matching `*.x`) run backend tests on PHP 8.2 and build the Vite assets with Node 20.
+- Successful runs on `master` also package a deployable tarball (vendor dependencies, compiled assets, and application source) as an artifact named `release-bundle` for downstream deployment.
+- When deployment secrets are present, successful `master` runs automatically transfer the `release-bundle` to the production server, extract it, run database migrations, and warm Laravel caches.
+
+### Deploy secrets
+
+Add the following repository secrets to enable the production deployment stage:
+
+- `DEPLOY_HOST`: SSH host for the production server.
+- `DEPLOY_USER`: SSH user for deployment.
+- `DEPLOY_PASSWORD`: SSH password for deployment.
+- `DEPLOY_PORT`: SSH port (set to `22` if not using a custom port).
+- `DEPLOY_PATH`: Absolute path on the server where the release should be copied and extracted.
+
+Ensure the target path already contains a valid `.env` file and correct permissions for the web server/PHP-FPM user.
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.

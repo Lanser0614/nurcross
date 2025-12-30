@@ -41,6 +41,11 @@ class Gym extends Model
         return $this->hasMany(Wod::class);
     }
 
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';

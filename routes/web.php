@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\GymCoordinateController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventRegistrationController;
 use App\Http\Controllers\GymController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocaleController;
@@ -11,6 +13,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WodController;
 use App\Http\Controllers\WodResultController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/test', function () {
+//    dd(Lang('Save result'));
+});
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -23,12 +29,16 @@ Route::get('/movements/{movement}', [MovementController::class, 'show'])->name('
 
 Route::get('/wods', [WodController::class, 'index'])->name('wods.index');
 Route::get('/wods/{wod}', [WodController::class, 'show'])->name('wods.show');
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::get('/events/{event:slug}', [EventController::class, 'show'])->name('events.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/my-wods', [ProfileController::class, 'index'])->name('profile.wods');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     Route::post('/wods/{wod}/results', [WodResultController::class, 'store'])
         ->name('wods.results.store');
+    Route::post('/events/{event:slug}/registrations', [EventRegistrationController::class, 'store'])
+        ->name('events.registrations.store');
 });
 
 Route::middleware('guest')->group(function () {

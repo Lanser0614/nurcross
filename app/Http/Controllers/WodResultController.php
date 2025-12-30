@@ -17,9 +17,9 @@ class WodResultController extends Controller
             'result_scale' => ['required', 'in:rx,scaled,modified'],
             'notes' => ['nullable', 'string', 'max:500'],
         ], [], [
-            'time_in_seconds' => __('Time (seconds)'),
-            'total_reps' => __('Total reps'),
-            'weight_in_kg' => __('Weight (kg)'),
+            'time_in_seconds' => __('text.Time (seconds)'),
+            'total_reps' => __('text.Total reps'),
+            'weight_in_kg' => __('text.Weight (kg)'),
         ]);
 
         $validator->after(function ($validator) use ($request) {
@@ -30,7 +30,7 @@ class WodResultController extends Controller
             ) {
                 $validator->errors()->add(
                     'time_in_seconds',
-                    __('Enter at least one metric (time, reps, or weight).')
+                    __('text.Enter at least one metric (time, reps, or weight).')
                 );
             }
         });
@@ -52,7 +52,7 @@ class WodResultController extends Controller
 
         return redirect()
             ->route('wods.show', $wod)
-            ->with('wod_result_saved', __('Result saved!'));
+            ->with('wod_result_saved', __('text.Result saved!'));
     }
 
     private function formatScoreDisplay(array $data): ?string

@@ -1,36 +1,36 @@
 @extends('layouts.app')
 
-@section('title', __('Workout Library'))
+@section('title', __('text.Workout Library'))
 
 @section('content')
     <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-10">
         <div class="flex flex-col gap-4">
-            <p class="text-sm uppercase tracking-[0.4em] text-gray-500">{{ __('Daily grind') }}</p>
-            <h1 class="text-3xl font-bold">{{ __('Explore WODs') }}</h1>
-            <p class="text-gray-400 max-w-3xl">{{ __('For Time, AMRAP, EMOM, and strength sessions curated for the Uzbek community.') }}</p>
+            <p class="text-sm uppercase tracking-[0.4em] text-gray-500">{{ __('text.Daily grind') }}</p>
+            <h1 class="text-3xl font-bold">{{ __('text.Explore WODs') }}</h1>
+            <p class="text-gray-400 max-w-3xl">{{ __('text.For Time, AMRAP, EMOM, and strength sessions curated for the Uzbek community.') }}</p>
         </div>
 
         <form method="GET" class="flex flex-col gap-4 md:flex-row md:items-end bg-slate-900/60 border border-slate-800 rounded-3xl p-6 text-sm">
             <div class="flex-1">
-                <label class="text-gray-400 block mb-2" for="type">{{ __('Type') }}</label>
+                <label class="text-gray-400 block mb-2" for="type">{{ __('text.Type') }}</label>
                 <select name="type" id="type" class="w-full rounded-2xl bg-slate-950 border border-slate-800 px-3 py-2">
-                    <option value="">{{ __('Any') }}</option>
+                    <option value="">{{ __('text.Any') }}</option>
                     @foreach($types as $type)
                         <option value="{{ $type }}" @selected(($filters['type'] ?? '') === $type)>{{ \App\Models\Wod::translateType($type) }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="flex-1">
-                <label class="text-gray-400 block mb-2" for="difficulty">{{ __('Difficulty') }}</label>
+                <label class="text-gray-400 block mb-2" for="difficulty">{{ __('text.Difficulty') }}</label>
                 <select name="difficulty" id="difficulty" class="w-full rounded-2xl bg-slate-950 border border-slate-800 px-3 py-2">
-                    <option value="">{{ __('Any') }}</option>
+                    <option value="">{{ __('text.Any') }}</option>
                     @foreach($difficulties as $difficulty)
                         <option value="{{ $difficulty }}" @selected(($filters['difficulty'] ?? '') === $difficulty)>{{ \App\Models\Wod::translateDifficulty($difficulty) }}</option>
                     @endforeach
                 </select>
             </div>
             <div>
-                <button class="px-6 py-3 rounded-2xl bg-orange-500 text-black font-semibold shadow shadow-orange-500/30">{{ __('Filter') }}</button>
+                <button class="px-6 py-3 rounded-2xl bg-orange-500 text-black font-semibold shadow shadow-orange-500/30">{{ __('text.Filter') }}</button>
             </div>
         </form>
 
@@ -50,12 +50,12 @@
                             <span class="px-2 py-1 rounded-full bg-slate-950 border border-slate-800">{{ $movement->name }}</span>
                         @endforeach
                         @if($wod->is_benchmark)
-                            <span class="px-2 py-1 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-200">{{ __('Benchmark') }}</span>
+                            <span class="px-2 py-1 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-200">{{ __('text.Benchmark') }}</span>
                         @endif
                     </div>
                 </a>
             @empty
-                <p class="text-gray-400">{{ __('No WODs available.') }}</p>
+                <p class="text-gray-400">{{ __('text.No WODs available.') }}</p>
             @endforelse
         </div>
 
